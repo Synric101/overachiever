@@ -30,16 +30,23 @@ L.SUGGESTIONS_LOCATION_TIP = "Override Zone/Instance Location"
 L.SUGGESTIONS_LOCATION_TIP2 = "Leave blank to get suggestions for your current location or start typing to get a matching valid zone or instance name to use instead. Press |cffffffffTab|r to cycle between locations that match the text to the left of the cursor. |cffffffffShift+Tab|r cycles in reverse order. If the cursor is at the leftmost position, it cycles between all valid locations."
 L.SUGGESTIONS_LOCATION_SUBZONE = "Subzone:"
 L.SUGGESTIONS_LOCATION_NOSUBZONE = "(unspecified)"
-L.SUGGESTIONS_DIFFICULTY = "Instance Difficulty:"
+L.SUGGESTIONS_DIFFICULTY = "Dungeon Difficulty:"
 L.SUGGESTIONS_DIFFICULTY_AUTO = "Auto-Detect"
 L.SUGGESTIONS_DIFFICULTY_NORMAL = "Normal"
 L.SUGGESTIONS_DIFFICULTY_HEROIC = "Heroic"
-L.SUGGESTIONS_RAIDSIZE = "Raid Size:"
+L.SUGGESTIONS_DIFFICULTY_MYTHIC = "Mythic"
+L.SUGGESTIONS_DIFFICULTY_CHALLENGE = "Challenge"
+L.SUGGESTIONS_DIFFICULTY_TIMEWALKING = "Challenge"
+L.SUGGESTIONS_RAIDSIZE = "Legacy Raid Size:"
 L.SUGGESTIONS_RAIDSIZE_AUTO = "Auto-Detect"
 L.SUGGESTIONS_RAIDSIZE_10 = "10-man"
 L.SUGGESTIONS_RAIDSIZE_25 = "25-man"
-
-
+L.SUGGESTIONS_RAIDDIFF = "Raid Difficulty:"
+L.SUGGESTIONS_RAIDDIFF_AUTO = "Auto-Detect"
+L.SUGGESTIONS_RAIDDIFFICULTY_LFR = "LFR"
+L.SUGGESTIONS_RAIDDIFFICULTY_NORMAL = "Normal"
+L.SUGGESTIONS_RAIDDIFFICULTY_HEROIC = "Heroic"
+L.SUGGESTIONS_RAIDDIFFICULTY_MYTHIC = "Mythic"
 L.WATCH_TAB = "Watch";
 L.WATCH_HELP = "Create your watch list by |cffffffffalt+clicking|r on achievements in the other tabs or achievement chat links. |cffffffffAlt+click|r on one displayed here to stop watching it.";
 L.WATCH_EMPTY = "Your watch list is empty. Alt+click on an achievement in another tab or an achievement's chat link to watch it.";

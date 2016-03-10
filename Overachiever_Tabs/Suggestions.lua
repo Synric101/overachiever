@@ -539,7 +539,17 @@ local ACHID_INSTANCES = {
 		8454, 8458, 8459, 8461, 8462, -- "Glory of the Orgrimmar Raider", "Vale of Eternal Sorrows", "Gates of Retribution", "The Underhold", "Downfall"
 		IsAlliance and 8679 or 8680 -- "Conqueror of Orgrimmar" or "Liberator of Orgrimmar"
 	},
+-- Warlords of Draenor
+	["Upper Blackrock Spire"] = { 9042 },
+	["The Everbloom"] = { 9044 },
+	["Grimrail Depot"] = { 9043 },
+	["Shadowmoon Burial Grounds"] = { 9041 },
+	["Skyreach"] = { 8943 },
+	["Auchindoun"] = { 9039 },
+	["Iron Docks"] = { 9038 },
+	["Bloodmaul Slag Mines"] = { 9037 },
 }
+
 -- Battlegrounds
 ACHID_INSTANCES["The Battle for Gilneas"] = 5258
 ACHID_INSTANCES["Eye of the Storm"] = { 1171, 587, 1258, 211 }
@@ -653,6 +663,39 @@ local ACHID_INSTANCES_HEROIC = {
 		8463, 8465, 8466, 8467, 8468, 8469, 8470, -- "Heroic: Immerseus", "Heroic: Fallen Protectors", "Heroic: Norushen", "Heroic: Sha of Pride", "Heroic: Galakras", "Heroic: Iron Juggernaut", "Heroic: Kor'kron Dark Shaman",
 		8471, 8472, 8478, 8479, 8480, 8481, 8482, -- "Heroic: General Nazgrim", "Heroic: Malkorok", "Heroic: Spoils of Pandaria", "Heroic: Thok the Bloodthirsty", "Heroic: Siegecrafter Blackfuse", "Heroic: Paragons of the Klaxxi", "Heroic: Garrosh Hellscream"
 	},
+-- Warlords of Draenor
+	["Upper Blackrock Spire"] = { 9056, 9057, 9055, 9058, 9045, 9396 },
+	["The Everbloom"] = { 9053, 9017, 9396 },
+	["Grimrail Depot"] = { 9052, 9007, 9024, 9396 },
+	["Shadowmoon Burial Grounds"] = { 9054, 9025, 9026, 9018, 9396 },
+	["Skyreach"] = { 8844, 9035, 9034, 9036, 9033, 9396 },
+	["Auchindoun"] = { 9023, 9551, 9049, 9552, 9396 },
+	["Iron Docks"] = { 9081, 9047, 9083, 9082, 9396 },
+	["Bloodmaul Slag Mines"] = { 8993, 9005, 9046, 9008, 9396 },
+}
+
+local ACHID_INSTANCES_MYTHIC = {
+-- Warlords of Draenor
+	["Upper Blackrock Spire"] = { 10085 },
+	["The Everbloom"] = { 10083 },
+	["Grimrail Depot"] = { 10082 },
+	["Shadowmoon Burial Grounds"] = { 10084 },
+	["Skyreach"] = { 10081 },
+	["Auchindoun"] = { 10080 },
+	["Iron Docks"] = { 10079 },
+	["Bloodmaul Slag Mines"] = { 10076 },
+}
+
+local ACHID_INSTANCES_CHALLENGE = {
+-- Warlords of Draenor
+	["Upper Blackrock Spire"] = { 8891, 8892, 8894, 8893 },
+	["The Everbloom"] = { 9001, 9002, 9004, 9003 },
+	["Grimrail Depot"] = { 8887, 8888, 8890, 8889 },
+	["Shadowmoon Burial Grounds"] = { 8883, 8884, 8886, 8885 },
+	["Skyreach"] = { 8871, 8872, 8874, 8873 },
+	["Auchindoun"] = { 8879, 8880, 8882, 8881 },
+	["Iron Docks"] = { 8997, 8998, 9000, 8999 },
+	["Bloodmaul Slag Mines"] = { 8875, 8876, 8878, 8877 },
 }
 
 -- INSTANCES - 10-MAN ONLY (normal or heroic):
@@ -759,11 +802,124 @@ local ACHID_INSTANCES_25_NORMAL = {
 
 -- INSTANCES - HEROIC 25-MAN ONLY:
 local ACHID_INSTANCES_25_HEROIC = {
-	["Trial of the Crusader"] = { 3812 }, -- 3817 "A Tribute to Skill (25 player)" is now a Feat of Strength
+	["Trial of the Crusader"] = 3812, -- 3817 "A Tribute to Skill (25 player)" is now a Feat of Strength
 	["Icecrown Citadel"] = 4637,
 	["The Ruby Sanctum"] = 4816, -- Need to confirm zone name.
 -- Cataclysm Raids
 	["Firelands"] = 5803,	-- "Heroic: Ragnaros" (can be 10 or 25 apparently but putting it here allows detection that it's a raid when getting Suggestions outside it)
+}
+
+-- INSTANCES - LFR:
+local ACHID_INSTANCES_LFR = {
+-- Warlords of Draenor
+	["Highmaul"] = { 
+		SUBZONES = { 
+			["Path of Victors"] = { 8987, 8986, 8987 }, -- Brackenspore, The Butcher, Tectus
+			["The Coliseum"] = { 8986 }, -- Kargath
+			["Chamber of Nullifcation"] = { 8987, 8987 }, -- Twin Ogron, Ko'ragh
+			["Throne of the Imperator"] = { 8988 }, -- Mar'Gok
+		},
+	},
+	
+	["Blackrock Foundry"] = { 
+		SUBZONES = {
+			["The Black Forge"] = { 8990, 8991 }, -- Kromog,Iron Maidens, HAnz/Franz, Flamebender
+			["Slagworks"] = { 8989 }, -- Gruul, Blast Furnace, Oregorger
+			["Iron Assembly"] = { 8991 }, -- Thogar, Beastlord
+			["The Crucible"] = { 8992 }, -- Blackhand
+		},
+	},
+	
+	["Hellfire Citadel"] = { 
+		SUBZONES = {
+			["The Iron Bulwark"] = { 10023 }, -- Hellfire Assault, Iron Reaver
+			["Hellfire Antechamber"] = { 10024 }, -- Gorefiend
+			["Pits of Mannoroth"] = { 10023 }, -- Kormok
+			["Court of Blood"] = { 10024 }, -- Council, Kilrogg
+			["Grommash's Torment"] = { 10020, 10025 }, -- Zakuun, Iskar
+			["The Felborne Breach"] = { 10020 }, -- Xhul'Horac
+			["Halls of the Sargerei"] = { 10025 }, -- Socrethar, Velhari
+			["Destructor's Rise"] = { 10020 }, -- Mannoroth
+			["The Black Gate"] = { 10019 }, -- Archimonde
+		},
+	},
+-- Legion
+}
+
+-- INSTANCES - FLEX (N/H)
+local ACHID_INSTANCES_FLEX = {
+-- Warlords of Draenor
+	["Highmaul"] = { 8985, 
+		SUBZONES = {
+			["Path of Victors"] = { 8975, 8947, 8974 }, -- Brackenspore, The Butcher, Tectus
+			["The Coliseum"] = { 8948 }, -- Kargath
+			["Chamber of Nullifcation"] = { 8958, 8976 }, -- Twin Ogron, Ko'ragh
+			["Throne of the Imperator"] = { 8977 }, -- Mar'Gok
+		},
+	},
+	
+	["Blackrock Foundry"] = { 8985, 
+		SUBZONES = {
+			["The Black Forge"] = { 8929, 8983 }, -- Kromog,Iron Maidens, HAnz/Franz, Flamebender
+			["Slagworks"] = { 8930, 8978 }, -- Gruul, Blast Furnace, Oregorger
+			["Iron Assembly"] = { 8982 }, -- Thogar, Beastlord
+			["The Crucible"] = { 8952 }, -- Blackhand
+		},
+	},
+	
+	["Hellfire Citadel"] = { 10149, 
+		SUBZONES = {
+			["The Iron Bulwark"] = { 10026, 10057 }, -- Hellfire Assault, Iron Reaver
+			["Hellfire Antechamber"] = { 9979 }, -- Gorefiend
+			["Pits of Mannoroth"] = { 10013 }, -- Kormok
+			["Court of Blood"] = { 10054, 9972 }, -- Council, Kilrogg
+			["Grommash's Torment"] = { 10012, 9988 }, -- Zakuun, Iskar
+			["The Felborne Breach"] = { 10087 }, -- Xhul'Horac
+			["Halls of the Sargerei"] = { 10086 }, -- Socrethar, Velhari
+			["Destructor's Rise"] = { 10030 }, -- Mannoroth
+			["The Black Gate"] = { 10073, 9680 }, -- Archimonde
+		},
+	},
+	
+-- Legion
+}
+
+-- INSTANCES - MYTHIC RAID:
+local ACHID_INSTANCES_MYTHIC_RAID = {
+-- Warlords of Draenor
+	["Highmaul"] = { IsAlliance and 9631 or 9255, 
+		SUBZONES = {
+			["Path of Victors"] = { 8962, 8960, 8961 }, -- Brackenspore, The Butcher, Tectus
+			["The Coliseum"] = { 8949 }, -- Kargath
+			["Chamber of Nullifcation"] = { 8964, 8963 }, -- Twin Ogron, Ko'ragh
+			["Throne of the Imperator"] = { 8965 }, -- Mar'Gok
+		},
+	},
+	
+	["Blackrock Foundry"] = { IsAlliance and 9631 or 9255, 
+		SUBZONES = {
+			["The Black Forge"] = { 8971, 8932, 8968, 8972 }, -- Kromog,Iron Maidens, HAnz/Franz, Flamebender
+			["Slagworks"] = { 8966, 8970, 8967 }, -- Gruul, Blast Furnace, Oregorger
+			["Iron Assembly"] = { 8956, 8969 }, -- Thogar, Beastlord
+			["The Crucible"] = { 8973 }, -- Blackhand
+		},
+	},
+	
+	["Hellfire Citadel"] = { 
+		SUBZONES = {
+			["The Iron Bulwark"] = { 10027, 10032 }, -- Hellfire Assault, Iron Reaver
+			["Hellfire Antechamber"] = { 10253 }, -- Gorefiend
+			["Pits of Mannoroth"] = { 10033 }, -- Kormok
+			["Court of Blood"] = { 10034, 10035 }, -- Council, Kilrogg
+			["Grommash's Torment"] = { 10038, 10037 }, -- Zakuun, Iskar
+			["The Felborne Breach"] = { 10039 }, -- Xhul'Horac
+			["Halls of the Sargerei"] = { 10040, 10041 }, -- Socrethar, Velhari
+			["Destructor's Rise"] = { 10042 }, -- Mannoroth
+			["The Black Gate"] = { 10043, 10045 }, -- Archimonde
+		},
+	},
+	
+-- Legion
 }
 
 
@@ -841,7 +997,7 @@ local ACHID_TRADESKILL_BG = { Cooking = 1785 }	-- "Dinner Impossible"
 local VARS
 local frame, panel, sortdrop
 local LocationsList, EditZoneOverride, subzdrop, subzdrop_menu, subzdrop_Update = {}
-local diffdrop, raidsizedrop
+local diffdrop, raidsizedrop, raiddiffdrop
 local RefreshBtn, ResetBtn, NoSuggestionsLabel, ResultsLabel
 
 WHAT = LocationsList
@@ -955,6 +1111,16 @@ local function Refresh(self)
   if (not frame:IsVisible() or Refresh_stoploop) then  return;  end
   if (self == RefreshBtn or self == EditZoneOverride) then  PlaySound("igMainMenuOptionCheckBoxOn");  end
   Refresh_stoploop = true
+  
+  -- 								Use to return Dungeon
+  -- 1: 5N					2: 5H					8: Challenge				 23: Mythic	
+  -- 		11: Scenario(H)			12: Scenario(N)				 24: Timewalking
+  DungeonDiff = GetDungeonDifficultyID()
+  
+  -- 								Use to return Raid
+  -- 								  7: Pre-SoO LFR
+  -- 17: LFR Raid		14: Legacy/Flex N		15: Legacy/Flex H			16: Mythic Raid
+  RaidDiff = GetRaidDifficultyID()
 
   wipe(suggested)
   EditZoneOverride:ClearFocus()
@@ -975,19 +1141,13 @@ local function Refresh(self)
     subzdrop:Disable()
   end
 
-  local instype, heroicD, twentyfive, heroicR = Overachiever.GetDifficulty()
+  local instype, InstanceDiff, twentyfive, heroicR = Overachiever.GetDifficulty()
 
   -- Check for difficulty override:
-  local val = diffdrop:GetSelectedValue()
-  if (val ~= 0) then
-    val = val == 2 and true or false
-    heroicD = val
-    heroicR = val
-  end
-  val = raidsizedrop:GetSelectedValue()
-  if (val ~= 0) then
-    twentyfive = val == 25 and true or false
-  end
+  local dungeondiffoverride = diffdrop:GetSelectedValue()
+  local raidsizeoverride = raidsizedrop:GetSelectedValue()
+  local raiddiffoverride = raiddiffdrop:GetSelectedValue()
+
 
   -- Suggestions based on an open tradeskill window or whether a fishing pole is equipped:
   TradeskillSuggestions = GetTradeSkillLine()
@@ -1013,18 +1173,43 @@ local function Refresh(self)
         Refresh_Add(ACHID_BATTLEGROUNDS)
       end
 
-      if (heroicD or heroicR) then
-        if (twentyfive) then
-          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_HEROIC[zone])
-        else
-          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES_10_HEROIC[zone])
-        end
-      else
-        if (twentyfive) then
-          Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_NORMAL[zone])
-        else
-          Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES_10_NORMAL[zone])
-        end
+      if ((DungeonDiff == 1 and dungeondiffoverride == 0) or dungeondiffoverride == 1) then -- Normal Mode Dungeon
+          Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES[zone])
+      end
+      if (DungeonDiff == 2) then -- Heroic Dungeon/No selection
+          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES[zone])
+      end
+      if (DungeonDiff == 23 or dungeondiffoverride == 23) then -- Mythic Dungeon
+          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES_MYTHIC[zone], ACHID_INSTANCES[zone])
+      end
+      if (DungeonDiff == 8 or dungeondiffoverride == 8) then -- Challenge Mode Dungeon
+          Refresh_Add(ACHID_INSTANCES_CHALLENGE[zone], ACHID_INSTANCES[zone])
+      end
+      if (RaidDiff == 12) then -- Normal Scenario
+          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES[zone], ACHID_INSTANCES_NORMAL[zone])
+      end
+      if (RaidDiff == 11) then -- Heroic Scenario
+          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES[zone])
+      end
+      if (RaidDiff == 17) then -- LFR Raid
+          Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES[zone])
+	  end
+      if (RaidDiff == 14) then
+          if (twentyfive) then -- 25m Normal/Flex
+            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_NORMAL[zone], ACHID_INSTANCES[zone], ACHID_INSTANCES_NORMAL[zone])
+          else -- 10m Normal/Flex
+            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_10_NORMAL[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES[zone], ACHID_INSTANCES_NORMAL[zone])
+          end
+	  end
+      if (RaidDiff == 15) then
+          if (twentyfive) then -- 25m Heroic
+            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_HEROIC[zone], ACHID_INSTANCES[zone])
+          else -- 10m Heroic
+            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES_10_HEROIC[zone], ACHID_INSTANCES[zone])
+          end
+	  end
+      if (RaidDiff == 16) then -- Mythic Raid
+          Refresh_Add(ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_MYTHIC_RAID[zone], ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES[zone])
       end
 
     else
@@ -1042,15 +1227,15 @@ local function Refresh(self)
       -- If there are 10-man or 25-man specific achievements, this is a raid:
         if (heroicR) then
           if (twentyfive) then
-            Refresh_Add(ACHID_INSTANCES_HEROIC[CurrentSubzone] or ACHID_INSTANCES_HEROIC[zone], ach25, achH25)
+            Refresh_Add(ACHID_INSTANCES_HEROIC[CurrentSubzone] or ACHID_INSTANCES_HEROIC[zone])
           else
-            Refresh_Add(ACHID_INSTANCES_HEROIC[CurrentSubzone] or ACHID_INSTANCES_HEROIC[zone], ach10, achH10)
+            Refresh_Add(ACHID_INSTANCES_HEROIC[CurrentSubzone] or ACHID_INSTANCES_HEROIC[zone])
           end
         else
           if (twentyfive) then
-            Refresh_Add(ACHID_INSTANCES_NORMAL[CurrentSubzone] or ACHID_INSTANCES_NORMAL[zone], ach25, achN25)
+            Refresh_Add(ACHID_INSTANCES_NORMAL[CurrentSubzone] or ACHID_INSTANCES_NORMAL[zone])
           else
-            Refresh_Add(ACHID_INSTANCES_NORMAL[CurrentSubzone] or ACHID_INSTANCES_NORMAL[zone], ach10, achN10)
+            Refresh_Add(ACHID_INSTANCES_NORMAL[CurrentSubzone] or ACHID_INSTANCES_NORMAL[zone])
           end
         end
       -- Not a raid (or at least no 10-man vs 25-man specific suggestions):
@@ -1155,6 +1340,11 @@ Overachiever.SUGGESTIONS = {
 	tradeskill = ACHID_TRADESKILL,
 	tradeskill_zone = ACHID_TRADESKILL_ZONE,
 	tradeskill_bg = ACHID_TRADESKILL_BG,
+	instance_dungeon_mythic = ACHID_INSTANCES_MYTHIC, 
+	instance_challenge = ACHID_INSTANCES_CHALLENGE, 
+	instance_LFR = ACHID_INSTANCES_LFR, 
+	instance_flex = ACHID_INSTANCES_FLEX, 
+	instance_mythic_raid = ACHID_INSTANCES_MYTHIC_RAID,
 }
 
 
@@ -1193,7 +1383,7 @@ do
   end
   addtolist(suggested, ACHID_INSTANCES, ACHID_INSTANCES_NORMAL, ACHID_INSTANCES_HEROIC,
             ACHID_INSTANCES_10, ACHID_INSTANCES_25, ACHID_INSTANCES_10_NORMAL, ACHID_INSTANCES_25_NORMAL,
-            ACHID_INSTANCES_10_HEROIC, ACHID_INSTANCES_25_HEROIC)
+            ACHID_INSTANCES_10_HEROIC, ACHID_INSTANCES_25_HEROIC, ACHID_INSTANCES_MYTHIC, ACHID_INSTANCES_CHALLENGE, ACHID_INSTANCES_LFR, ACHID_INSTANCES_FLEX, ACHID_INSTANCES_MYTHIC_RAID)
   addtolist(suggested, ACHID_ZONE_MISC); -- Required for "unlisted" zones like Molten Front (doesn't appear in GetMapContinents/GetMapZones scan)
   addtolist = nil
   -- Arrange into alphabetically-sorted array:
@@ -1327,7 +1517,8 @@ do
     if (menu[zone] == nil) then
       local tab = {}
       addtosubzlist(suggested, zone, ACHID_ZONE_MISC, ACHID_INSTANCES, ACHID_INSTANCES_10, ACHID_INSTANCES_25,
-                ACHID_INSTANCES_10_NORMAL, ACHID_INSTANCES_25_NORMAL, ACHID_INSTANCES_10_HEROIC, ACHID_INSTANCES_25_HEROIC)
+                ACHID_INSTANCES_10_NORMAL, ACHID_INSTANCES_25_NORMAL, ACHID_INSTANCES_10_HEROIC, ACHID_INSTANCES_25_HEROIC, ACHID_INSTANCES_MYTHIC,
+				ACHID_INSTANCES_CHALLENGE, ACHID_INSTANCES_LFR, ACHID_INSTANCES_FLEX, ACHID_INSTANCES_MYTHIC_RAID)
       -- Arrange into alphabetically-sorted array:
       local count = 0
       for k in pairs(suggested) do
@@ -1380,12 +1571,20 @@ diffdrop = TjDropDownMenu.CreateDropDown("Overachiever_SuggestionsFrameDiffDrop"
     text = L.SUGGESTIONS_DIFFICULTY_HEROIC,
     value = 2
   };
+  {
+    text = L.SUGGESTIONS_DIFFICULTY_MYTHIC,
+    value = 23
+  };
+   {
+    text = L.SUGGESTIONS_DIFFICULTY_CHALLENGE,
+    value = 8
+  };
 })
 diffdrop:SetLabel(L.SUGGESTIONS_DIFFICULTY, true)
 diffdrop:SetPoint("TOPLEFT", subzdrop, "BOTTOMLEFT", 0, -18)
 diffdrop:OnSelect(Refresh)
 
-raidsizedrop = TjDropDownMenu.CreateDropDown("Overachiever_SuggestionsFrameRaidSizeDrop", panel, {
+raidsizedrop = TjDropDownMenu.CreateDropDown("Overachiever_SuggestionsFrameLegacyRaidSizeDrop", panel, {
   {
     text = L.SUGGESTIONS_RAIDSIZE_AUTO,
     value = 0
@@ -1399,13 +1598,38 @@ raidsizedrop = TjDropDownMenu.CreateDropDown("Overachiever_SuggestionsFrameRaidS
     value = 25
   };
 })
+
 raidsizedrop:SetLabel(L.SUGGESTIONS_RAIDSIZE, true)
 raidsizedrop:SetPoint("TOPLEFT", diffdrop, "BOTTOMLEFT", 0, -18)
 raidsizedrop:OnSelect(Refresh)
 
+raiddiffdrop = TjDropDownMenu.CreateDropDown("Overachiever_SuggestionsFrameRaidSizeDrop", panel, {
+  {
+    text = L.SUGGESTIONS_RAIDDIFF_AUTO,
+    value = 0
+  },
+  {
+    text = L.SUGGESTIONS_RAIDDIFFICULTY_LFR,
+    value = 17
+ },
+ {
+    text = L.SUGGESTIONS_RAIDDIFFICULTY_NORMAL,
+    value = 14
+  };
+  {
+    text = L.SUGGESTIONS_RAIDDIFFICULTY_HEROIC,
+    value = 15
+  },
+  {
+    text = L.SUGGESTIONS_RAIDDIFFICULTY_MYTHIC,
+    value = 16
+  };
+})
+raiddiffdrop:SetLabel(L.SUGGESTIONS_RAIDDIFF, true)
+raiddiffdrop:SetPoint("TOPLEFT", raidsizedrop, "BOTTOMLEFT", 0, -14)
+raiddiffdrop:OnSelect(Refresh)
 
-
-RefreshBtn:SetPoint("TOPLEFT", raidsizedrop, "BOTTOMLEFT", 16, -14)
+RefreshBtn:SetPoint("TOPLEFT", raiddiffdrop, "BOTTOMLEFT", 16, -14)
 
 ResetBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
 ResetBtn:SetWidth(75); ResetBtn:SetHeight(21)
@@ -1417,79 +1641,6 @@ ResetBtn:SetScript("OnClick", function(self)
   Refresh()
 end)
 
-
-
--- MISCELLANEOUS
-----------------------------------------------------
-
---[[
-local function grabFromCategory(cat, ...)
-  wipe(suggested)
-  -- Get achievements in the category except those with a previous one in the chain that are also in the category:
-  local id, prev, p2
-  for i = 1, GetCategoryNumAchievements(cat) do
-    id = GetAchievementInfo(cat, i)
-	if (id) then
-      prev, p2 = nil, GetPreviousAchievement(id)
-      while (p2 and GetAchievementCategory(p2) == cat) do
-        prev = p2
-        p2 = GetPreviousAchievement(id)
-      end
-      suggested[ (prev or id) ] = true
-	end
-  end
-  -- Add achievements specified by function call (useful for meta-achievements in a different category):
-  for i=1, select("#", ...) do
-    id = select(i, ...)
-    suggested[id] = true
-  end
-  -- Fold achievements into their meta-achievements on the list:
-  local tab, _, critType, assetID = {}
-  for id in pairs(suggested) do
-    for i=1,GetAchievementNumCriteria(id) do
-      _, critType, _, _, _, _, _, assetID = GetAchievementCriteriaInfo(id, i)
-      if (critType == 8 and suggested[assetID]) then
-        tab[assetID] = true -- Not removed immediately in case there are meta-achievements within meta-achievements
-      end
-    end
-  end
-  for assetID in pairs(tab) do  suggested[assetID] = nil;  end
-  -- Format list:
-  local count = 0
-  wipe(tab)
-  for id in pairs(suggested) do
-    count = count + 1
-    tab[count] = id
-  end
-  return tab
-end
---]]
-
--- ULDUAR 10: Results from grabFromCategory(14961, 2957):
---	{ 2894, 2903, 2905, 2907, 2909, 2911, 2913, 2919, 2925, 2927, 2931, 2933, 2934, 2937, 2939, 2940, 2945, 2947, 2951, 2955, 2957, 2959, 2961, 2963, 2967, 2969, 2971, 2973, 2975, 2977, 2979, 2980, 2982, 2985, 2989, 2996, 3003, 3004, 3008, 3009, 3012, 3014, 3015, 3036, 3076, 3097, 3138, 3157, 3177, 3316 }
--- ULDUAR 25: Results from grabFromCategory(14962, 2958):
---	{ 2895, 2904, 2906, 2908, 2910, 2912, 2918, 2921, 2926, 2928, 2932, 2935, 2936, 2938, 2942, 2943, 2946, 2948, 2952, 2956, 2958, 2960, 2962, 2965, 2968, 2970, 2972, 2974, 2976, 2978, 2981, 2983, 2984, 2995, 2997, 3002, 3005, 3010, 3011, 3013, 3016, 3017, 3037, 3077, 3098, 3118, 3161, 3185, 3237 }
-
---[[
--- /run Overachiever.Debug_GetIDsInCat( GetAchievementCategory(GetTrackedAchievements()) )
-function Overachiever.Debug_GetIDsInCat(cat)
-  local tab = Overachiever_Settings.Debug_AchIDsInCat
-  if (not tab) then  Overachiever_Settings.Debug_AchIDsInCat = {};  tab = Overachiever_Settings.Debug_AchIDsInCat;  end
-  local catname = GetCategoryInfo(cat)
-  tab[catname] = {}
-  tab = tab[catname]
-  local id, n
-  for i=1,GetCategoryNumAchievements(cat) do
-    id, n = GetAchievementInfo(cat, i)
-    if (id) then
-	  tab[n] = id
-    end
-  end
-end
---]]
-
---[[ --]]
--- /run Overachiever.Debug_GetMissingAch()
 local function getAchIDsFromTab(from, to)
   for k,v in pairs(from) do
     if (type(v) == "table") then

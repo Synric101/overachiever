@@ -2572,7 +2572,7 @@ lib:SetBaseTranslations
 	["Nagrand Arena"] = "Nagrand Arena",
 	["Nagrand Corral"] = "Nagrand Corral",
 	["Nagrand - Garrison Camp - Stable2"] = "Nagrand - Garrison Camp - Stable2",
-	["Nagrand (Outland)"] = "Nagrand (Outland)",
+	["Nagrand (Draenor)"] = "Nagrand (Draenor)",
 	Nahom = "Nahom",
 	["Naielle's Watch"] = "Naielle's Watch",
 	["Nar'shola Terrace"] = "Nar'shola Terrace",
@@ -3288,7 +3288,7 @@ lib:SetBaseTranslations
 	["Shadowmoon Mine"] = "Shadowmoon Mine",
 	["Shadowmoon Overlook"] = "Shadowmoon Overlook",
 	["Shadowmoon Rise"] = "Shadowmoon Rise",
-	["Shadowmoon Valley"] = "Shadowmoon Valley",
+	["Shadowmoon Valley (Draenor)"] = "Shadowmoon Valley (Draenor)",
 	["Shadowmoon Valley (Outland)"] = "Shadowmoon Valley (Outland)",
 	["Shadowmoon Village"] = "Shadowmoon Village",
 	["Shadow-Pan Monastery"] = "Shadow-Pan Monastery",
@@ -5526,6 +5526,7 @@ lib:SetBaseTranslations
 	["zzOld - Imperial Road"] = "zzOld - Imperial Road",
 	["zzOld - Sundered Pass"] = "zzOld - Sundered Pass",
 	["zzOld - Tankworks"] = "zzOld - Tankworks",
+	["Nagrand (Outland)"] = "Nagrand (Outland)",
 }
 
 if GetLocale() == "enUS" then
