@@ -1095,14 +1095,6 @@ local TradeskillSuggestions
 local Refresh_lastcount, Refresh_stoploop = 0
 
 local function Refresh(self)
-  -- 								Use to return Dungeon
-  -- 1: 5N					2: 5H					8: Challenge				 23: Mythic	
-  -- 		11: Scenario(H)			12: Scenario(N)				 24: Timewalking
-  DungeonDiff = GetDungeonDifficultyID()
-  -- 								Use to return Raid
-  -- 								  7: Pre-SoO LFR
-  -- 17: LFR Raid		14: Legacy/Flex N		15: Legacy/Flex H			16: Mythic Raid
-  RaidDiff = GetRaidDifficultyID()
   if (not frame:IsVisible() or Refresh_stoploop) then  return;  end
   if (self == RefreshBtn or self == EditZoneOverride) then  PlaySound("igMainMenuOptionCheckBoxOn");  end
   Refresh_stoploop = true
@@ -1126,29 +1118,8 @@ local function Refresh(self)
     subzdrop:Disable()
   end
 
-  local instype, InstanceDiff, twentyfive, heroicR = Overachiever.GetDifficulty()
-
+  local instype, isNormal, isHeroic, HeroicR, isChallengeMode, MythicD, Legacy25, FlexRaid, MythicRaid, LFRRaid = Overachiever.GetDifficulty()
   -- Check for difficulty override:
-  local val = diffdrop:GetSelectedValue()
-  if (val ~= 0) then
-    val = val == 2 and true or false
-    InstanceDiff = val
-    heroicR = val
-  end
-  
-  val = raidsizedrop:GetSelectedValue()
-  if (val ~= 0) then
-    twentyfive = val == 25 and true or false
-  end
-  
-  -- Check for difficulty override:
-  local val = raiddiffdrop:GetSelectedValue()
-  if (val ~= 0) then
-    val = val == 14 and true or false
-    InstanceDiff = val
-    heroicR = val
-  end
-
 
   -- Suggestions based on an open tradeskill window or whether a fishing pole is equipped:
   TradeskillSuggestions = GetTradeSkillLine()
@@ -1173,43 +1144,39 @@ local function Refresh(self)
       if (instype == "pvp") then  -- If in a battleground:
         Refresh_Add(ACHID_BATTLEGROUNDS)
       end
-
-      if (InstanceDiff == 1) then -- Normal Mode Dungeon
+	  
+      if (isNormal) then -- Normal Mode Dungeon
           Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES[zone])
       end
-      if (DungeonDiff == 2) then -- Heroic Dungeon/No selection
+      if (isHeroic) then -- Heroic Dungeon/No selection
           Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES[zone])
       end
-      if (DungeonDiff == 23) then -- Mythic Dungeon
+      if (MythicD) then -- Mythic Dungeon
           Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES_MYTHIC[zone], ACHID_INSTANCES[zone])
       end
-      if (DungeonDiff == 8 or dungeondiffoverride == 8) then -- Challenge Mode Dungeon
+      if (isChallengeMode) then -- Challenge Mode Dungeon
           Refresh_Add(ACHID_INSTANCES_CHALLENGE[zone], ACHID_INSTANCES[zone])
       end
-      if (RaidDiff == 12) then -- Normal Scenario
-          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES[zone], ACHID_INSTANCES_NORMAL[zone])
-      end
-      if (RaidDiff == 11) then -- Heroic Scenario
-          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES[zone])
-      end
-      if (RaidDiff == 17) then -- LFR Raid
+      if (HeroicR) then
+        if (Legacy25) then
+          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_HEROIC[zone])
+        else
+          Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES_10_HEROIC[zone])
+        end
+      else
+        if (Legacy25) then
+          Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_NORMAL[zone])
+        else
+          Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES_10_NORMAL[zone])
+        end
+		end
+      if (LFRRaid) then -- LFR Raid
           Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES[zone])
 	  end
-      if (RaidDiff == 14) then
-          if (twentyfive) then -- 25m Normal/Flex
-            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_NORMAL[zone], ACHID_INSTANCES[zone], ACHID_INSTANCES_NORMAL[zone])
-          else -- 10m Normal/Flex
-            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_10_NORMAL[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES[zone], ACHID_INSTANCES_NORMAL[zone])
-          end
-	  end
-      if (RaidDiff == 15) then
-          if (twentyfive) then -- 25m Heroic
-            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_25[zone], ACHID_INSTANCES_25_HEROIC[zone], ACHID_INSTANCES[zone])
-          else -- 10m Heroic
-            Refresh_Add(ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_10[zone], ACHID_INSTANCES_10_HEROIC[zone], ACHID_INSTANCES[zone])
-          end
-	  end
-      if (RaidDiff == 16) then -- Mythic Raid
+      if (FlexRaid) then -- Flex Raid
+          Refresh_Add(ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES[zone])
+      end
+      if (MythicRaid) then -- Mythic Raid
           Refresh_Add(ACHID_INSTANCES_FLEX[zone], ACHID_INSTANCES_MYTHIC_RAID[zone], ACHID_INSTANCES_LFR[zone], ACHID_INSTANCES[zone])
       end
 
@@ -1219,32 +1186,6 @@ local function Refresh(self)
       -- have subzones with the instance name when you're near the instance entrance and some instance entrances are
       -- actually in their own "zone" using the instance's zone name):
       Refresh_Add(ACHID_INSTANCES[CurrentSubzone] or ACHID_INSTANCES[zone])
-
-      local ach10, ach25 = ACHID_INSTANCES_10[CurrentSubzone] or ACHID_INSTANCES_10[zone], ACHID_INSTANCES_25[CurrentSubzone] or ACHID_INSTANCES_25[zone]
-      local achH10, achH25 = ACHID_INSTANCES_10_HEROIC[CurrentSubzone] or ACHID_INSTANCES_10_HEROIC[zone], ACHID_INSTANCES_25_HEROIC[CurrentSubzone] or ACHID_INSTANCES_25_HEROIC[zone]
-      local achN10, achN25 = ACHID_INSTANCES_10_NORMAL[CurrentSubzone] or ACHID_INSTANCES_10_NORMAL[zone], ACHID_INSTANCES_25_NORMAL[CurrentSubzone] or ACHID_INSTANCES_25_NORMAL[zone]
-
-      if (ach10 or ach25 or achH10 or achH25 or achN10 or achN25) then
-      -- If there are 10-man or 25-man specific achievements, this is a raid:
-        if (heroicR) then
-          if (twentyfive) then
-            Refresh_Add(ACHID_INSTANCES_HEROIC[CurrentSubzone] or ACHID_INSTANCES_HEROIC[zone])
-          else
-            Refresh_Add(ACHID_INSTANCES_HEROIC[CurrentSubzone] or ACHID_INSTANCES_HEROIC[zone])
-          end
-        else
-          if (twentyfive) then
-            Refresh_Add(ACHID_INSTANCES_NORMAL[CurrentSubzone] or ACHID_INSTANCES_NORMAL[zone])
-          else
-            Refresh_Add(ACHID_INSTANCES_NORMAL[CurrentSubzone] or ACHID_INSTANCES_NORMAL[zone])
-          end
-        end
-      -- Not a raid (or at least no 10-man vs 25-man specific suggestions):
-      elseif (heroicD) then
-        Refresh_Add(ACHID_INSTANCES_HEROIC[CurrentSubzone] or ACHID_INSTANCES_HEROIC[zone])
-      else
-        Refresh_Add(ACHID_INSTANCES_NORMAL[CurrentSubzone] or ACHID_INSTANCES_NORMAL[zone])
-      end
     end
 
     -- Suggestions from recent reminders:
@@ -1591,12 +1532,20 @@ raidsizedrop = TjDropDownMenu.CreateDropDown("Overachiever_SuggestionsFrameLegac
     value = 0
   },
   {
-    text = L.SUGGESTIONS_RAIDSIZE_10,
-    value = 10
+    text = L.SUGGESTIONS_RAIDSIZE_10N,
+    value = 3
   },
   {
-    text = L.SUGGESTIONS_RAIDSIZE_25,
-    value = 25
+    text = L.SUGGESTIONS_RAIDSIZE_25N,
+    value = 4
+  };
+  {
+    text = L.SUGGESTIONS_RAIDSIZE_10H,
+    value = 5
+  },
+  {
+    text = L.SUGGESTIONS_RAIDSIZE_25H,
+    value = 6
   };
 })
 

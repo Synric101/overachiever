@@ -137,21 +137,23 @@ function Overachiever.GetDifficulty()
   local inInstance = IsInInstance()
   if (inInstance) then
 -- IF IN AN INSTANCE:
-  -- Returns: <instance type ("pvp"/"arena"/"party"/"raid"/"scenario"/)>, <Heroic?>, <25-player Raid?>, <Heroic Raid?>, <Dynamic?>
+  -- Returns: <instance type ("pvp"/"arena"/"party"/"raid")>, <Heroic?>, <Challenge?>, <Mythic?>, <25-player Raid?>, <Flex Raid?>, <Mythic Raid?> <Dynamic?>
   --   If in a raid, the "Heroic Raid?" return will match the "Heroic?" return. Otherwise, it will be nil (actually
   --   no return). "Dynamic?" refers to whether the current instance's difficulty can be changed on the fly, as is
   --   the case with the Icecrown Citadel raid.
   --   Note: While it may seem that the "Heroic?" and "Heroic Raid?" returns are redundant here, it's done this
   --   way to make the return values consistent with those given when you're NOT in an instance.
     local _, itype, diff, _, _, dynDiff, isDynamic = GetInstanceInfo()
-    local _, _, InstanceDiff = GetDifficultyInfo(diff) -- This function can also give us isChallengeMode, but we're not using it at the moment.
-    return itype, InstanceDiff, (diff == 4 or diff == 6), (diff == 5 or diff == 6), isDynamic
+    --if (isDynamic) then  diff = dynDiff;  end  -- Testing is needed to see if this line is necessary.
+    local _, _, isHeroic, isChallengeMode = GetDifficultyInfo(diff) -- This function can also give us isChallengeMode, but we're not using it at the moment.
+    return itype, (diff == 1), (diff == 5 or diff == 6 or diff == 15), isHeroic, isChallengeMode, (diff == 23), (diff == 4 or diff == 6), (diff == 14 or diff == 15), (diff == 16), (diff == 17), isDynamic
   end
 -- IF NOT IN AN INSTANCE:
-  -- Returns: false, <Dungeon set as Heroic?>, <Raid set for 25 players?>, <Raid set as Heroic?>
+  -- Returns: false, <Dungeon set as Heroic?>, <Challenge Mode?>, <Mythic Dungeon?>, <Raid set for 25 players?>, <Raid set as Heroic?>, <Flex Raid?>, <Mythic Raid?>
   local d = GetDungeonDifficultyID()
   local r = GetRaidDifficultyID()
-  return false, (d > 1), (r == 4 or r == 6), (r == 4 or r == 6 or r == 15)
+  local l = GetLegacyRaidDifficultyID()
+  return false, (d == 1), (d == 2), (l > 4), (d == 8), (d == 23), (l == 4 or l == 6), (r == 14 or r == 15), (r == 16), (r == 17)
 end
 
 
