@@ -20,6 +20,15 @@ local RecentReminders = Overachiever.RecentReminders
 
 local IsAlliance = UnitFactionGroup("player") == "Alliance"
 local suggested = {}
+local ContinentVal = GetCurrentMapContinent()
+  -- 								Use to return Dungeon
+  -- 1: 5N					2: 5H					8: Challenge				 23: Mythic	
+  -- 		11: Scenario(H)			12: Scenario(N)				 24: Timewalking
+ local DungeonDiff = GetDungeonDifficultyID()
+  -- 								Use to return Raid
+  -- 								  7: Pre-SoO LFR
+  -- 17: LFR Raid		14: Legacy/Flex N		15: Legacy/Flex H			16: Mythic Raid
+ local RaidDiff = GetRaidDifficultyID()
 
 
 
@@ -95,8 +104,6 @@ if (IsAlliance) then
 	["Netherstorm"] = 1194,
 	["Hellfire Peninsula"] = 1189,
 	["Terokkar Forest"] = 1191,
-	["Shadowmoon Valley"] = 1195,
-	["Nagrand"] = 1192,
   -- Northrend
 	["Icecrown"] = 40,
 	["Dragonblight"] = 35,
@@ -177,8 +184,6 @@ else
 	["Netherstorm"] = 1194,
 	["Hellfire Peninsula"] = 1271,
 	["Terokkar Forest"] = 1272,
-	["Shadowmoon Valley"] = 1195,
-	["Nagrand"] = 1273,
   -- Northrend
 	["Icecrown"] = 40,
 	["Dragonblight"] = 1359,
@@ -242,7 +247,6 @@ local ACHID_ZONE_MISC = {
 			 IsAlliance and 5318 or 5319 },	-- "20,000 Leagues Under the Sea"
 -- Outland
 	["Blade's Edge Mountains"] = 1276,	-- "Blade's Edge Bomberman"
-	["Nagrand"] = { 939, "1576:1" },	-- "Hills Like White Elekk", "Of Blood and Anguish"
 	["Netherstorm"] = 545,		-- "Shave and a Haircut"
 	["Shattrath City"] =	-- "My Sack is "Gigantique"", "Old Man Barlowned", "Kickin' It Up a Notch",
 		{ 1165, 905, 906, 903,  },	-- "Shattrath Divided"
@@ -324,49 +328,6 @@ local ACHID_ZONE_MISC = {
 	["Timeless Isle"] = {
 		8715, 8726, 8725, 8728, 8712, 8723, 8533, 8724, 8730, 8717
 	},
--- Draenor
-	["Ashran"] = {
-		9102, -- Ashran Victory
-		IsAlliance and 9104 or 9103, -- Bounty Hunter
-		9105, -- Tour of Duty
-		9106, -- Just for Me
-		9216, -- High-value Targets
-		IsAlliance and 9408 or 9217, -- Operation Counterattack
-		IsAlliance and 9225 or 9224, -- Take Them Out
-		9218, -- Grand Theft, 1st Degree
-		9222, -- Divide and Conquer
-		9223, -- Weed Whacker
-		IsAlliance and 9256 or 9257, -- Rescue Operation
-		IsAlliance and 9214 or 9215, -- Hero of Stormshield / Hero of Warspear
-		IsAlliance and 9714 or 9715, -- Thy Kingdom Come
-	},
-	["Gorgrond"] = {
-		IsAlliance and 8923 or 8924,
-		9607,
-	},
-	["Talador"] = {
-		IsAlliance and 8920 or 8919,
-		9674,
-	},
-	["Spires of Arak"] = {
-		IsAlliance and 8925 or 8926,
-		9605,
-	},
-	--["Nagrand"] = { -- section handled below temporarily
-	--	IsAlliance and 8927 or 8928,
-	--	9615,
-	--},
-	["Tanaan Jungle"] = {
-		10261, -- Jungle Treasure Hunter
-		10259, -- Jungle Hunter
-		10069, -- I Came, I Clawed, I Conquered
-		10061, -- Hellbane
-		IsAlliance and 10067 or 10074, -- In Pursuit of Gul'dan
-		IsAlliance and 10068 or 10075, -- Draenor's Last Stand
-		10071, -- The Legion Will NOT Conquer All
-		IsAlliance and 10072 or 10265, -- Rumble in the Jungle (complete the above, and any in same series as one of the above, and the explore achievement)
-		10052, -- Tiny Terrors in Tanaan
-	},
 }
 if (IsAlliance) then
   tinsert(ACHID_ZONE_MISC["Grizzly Hills"], 2016) -- "Grizzled Veteran"
@@ -393,11 +354,6 @@ if (IsAlliance) then
   -- "Down Goes Van Rook" (currently no Horde equivalent?)
   tinsert(ACHID_ZONE_MISC["Ashran"], 9228)
 
-  ACHID_ZONE_MISC["Shadowmoon Valley"] = {
-	8845,
-	9602,
-  }
-
 else
   tinsert(ACHID_ZONE_MISC["Azshara"], 5454) -- "Joy Ride"
   tinsert(ACHID_ZONE_MISC["Grizzly Hills"], 2017) -- "Grizzled Veteran"
@@ -417,11 +373,6 @@ else
   -- "The Sunreavers", "Champion of the Horde":
   tinsert(ACHID_ZONE_MISC["Icecrown"], 3677)
   tinsert(ACHID_ZONE_MISC["Icecrown"], 2788)
-  
-  ACHID_ZONE_MISC["Frostfire Ridge"] = {
-	8671,
-	9606,
-  }
 
 end
 -- "The Fishing Diplomat":
@@ -441,10 +392,56 @@ tinsert(ACHID_ZONE_MISC["Thunder Bluff"], "6621:2")
 tinsert(ACHID_ZONE_MISC["Undercity"], "6621:3")
 tinsert(ACHID_ZONE_MISC["Silvermoon City"], "6621:4")
 
--- Problem: Two zones named Nagrand. A change to the system is needed. For now, just put the new zone's in with the rest.
-tinsert(ACHID_ZONE_MISC["Nagrand"], IsAlliance and 8927 or 8928)
-tinsert(ACHID_ZONE_MISC["Nagrand"], 9615)
-
+-- We'll handle these hackily. For the basic string check your continent
+-- if #3 (Outland), we'll return outland achievements. If not, we'll return Draenor
+if (ContinentVal == "3") then -- Check if currently Outland
+	ACHID_ZONE_MISC["Shadowmoon Valley"] = { 864, 1195, 898, 1638 }
+	if (IsAlliance) then 
+		ACHID_ZONE_MISC["Nagrand"] = { 1192, 866, 939, 1576 }
+	else 
+		ACHID_ZONE_MISC["Nagrand"] = { 1273, 866, 939, 1576 }
+	end
+else -- Else load Draenor
+	if (IsAlliance) then 
+		ACHID_ZONE_MISC["Shadowmoon Valley"] = { 9433, 9432, 9436, 9435, 9437, 9483, 9481, 9434, 9479, 8930, 8845, 9528, 9602 }
+		ACHID_ZONE_MISC["Nagrand"] = { 8927, 9610, 9571,9541, 9617, 9615, 8942, 9705, 9706 }
+	else 
+		ACHID_ZONE_MISC["Shadowmoon Valley"] = { 9433, 9432, 9436, 9435, 9437, 9483, 9481, 9434, 9479, 8930 }
+		ACHID_ZONE_MISC["Nagrand"] = { 8928, 9610, 9571,9541, 9617, 9615, 8942, 9705, 9706 }
+	end
+end
+-- Also include specific strings for Outland and Draenor versions for suggestion lookup
+ACHID_ZONE_MISC["Shadowmoon Valley (Outland)"] = { 864, 1195, 898, 1638 }
+if (IsAlliance) then 
+	ACHID_ZONE_MISC["Nagrand (Outland)"] = { 1192, 866, 939, 1576 }
+else 
+	ACHID_ZONE_MISC["Nagrand (Outland)"] = { 1273, 866, 939, 1576 }
+end
+if (IsAlliance) then 
+	ACHID_ZONE_MISC["Shadowmoon Valley (Draenor)"] = { 9433, 9432, 9436, 9435, 9437, 9483, 9481, 9434, 9479, 8930, 8845, 9528, 9602 }
+	ACHID_ZONE_MISC["Nagrand (Draenor)"] = { 8927, 9610, 9571,9541, 9617, 9615, 8942, 9705, 9706 }
+else 
+	ACHID_ZONE_MISC["Shadowmoon Valley (Draenor)"] = { 9433, 9432, 9436, 9435, 9437, 9483, 9481, 9434, 9479, 8930 }
+	ACHID_ZONE_MISC["Nagrand (Draenor)"] = { 8928, 9610, 9571,9541, 9617, 9615, 8942, 9705, 9706 }
+end
+-- I'm also moving all Draenor achievements here, for nothing other then simpicities sake
+-- in updating the achievement lists since they are scattered, and its easier to just rewrite
+	if (IsAlliance) then 
+		ACHID_ZONE_MISC["Gorgrond"] = { 9710, 9655,9656, 9659, 9678, 9967, 9654, 9663, 9711, 9658, 9607, 9400, 8939, 9401, 8923, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Frostfire Ridge"] = { 9533, 9534, 9537, 9536, 9535, 9529, 8937, 9530, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Talador"] = { 9633, 9638, 9635, 9634, 9636, 9632, 9637, 9486, 9674, 8940, 8920, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Spires of Arak"] = { 9612, 9613, 9601, 9600, 9605, 8941, 9072, 8925, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Tanaan Jungle"] = { 10260, 10061, 10069, 10259, 10070, 10261, 10262, 10334, 10071, 10052, 10068, 10072, 10350 }
+		ACHID_ZONE_MISC["Ashran"] = { 9102, 9222, 9218, 9219, 9220, 9216, 9106, 9105, 9104, 9228, 9214, 9408, 9256, 9225, 9714 }
+		else 
+		ACHID_ZONE_MISC["Gorgrond"] = { 9710, 9655,9656, 9659, 9678, 9967, 9654, 9663, 9711, 9658, 9607, 9400, 8939, 9401, 8926, 8924, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Frostfire Ridge"] = { 9533, 9534, 9537, 9536, 9535, 9529, 8937, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Talador"] = { 9633, 9638, 9635, 9634, 9636, 9632, 9637, 9486, 9674, 8940, 8919, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Spires of Arak"] = { 9612, 9613, 9601, 9600, 9605, 8926, 8941, 9072, 9726, 9727, 9728, 10348 }
+		ACHID_ZONE_MISC["Tanaan Jungle"] = { 10260, 10061, 10069, 10259, 10070, 10261, 10262, 10334, 10071, 10052, 10075, 10265, 10349 }
+		ACHID_ZONE_MISC["Ashran"] = { 9102, 9222, 9218, 9219, 9220, 9216, 9106, 9105, 9103, 9215, 9217, 9257, 9224, 9715 }
+	end
+	
 -- INSTANCES - ANY DIFFICULTY (any group size):
 local ACHID_INSTANCES = {
 -- Classic Dungeons
@@ -1111,16 +1108,6 @@ local function Refresh(self)
   if (not frame:IsVisible() or Refresh_stoploop) then  return;  end
   if (self == RefreshBtn or self == EditZoneOverride) then  PlaySound("igMainMenuOptionCheckBoxOn");  end
   Refresh_stoploop = true
-  
-  -- 								Use to return Dungeon
-  -- 1: 5N					2: 5H					8: Challenge				 23: Mythic	
-  -- 		11: Scenario(H)			12: Scenario(N)				 24: Timewalking
-  DungeonDiff = GetDungeonDifficultyID()
-  
-  -- 								Use to return Raid
-  -- 								  7: Pre-SoO LFR
-  -- 17: LFR Raid		14: Legacy/Flex N		15: Legacy/Flex H			16: Mythic Raid
-  RaidDiff = GetRaidDifficultyID()
 
   wipe(suggested)
   EditZoneOverride:ClearFocus()
@@ -1173,13 +1160,13 @@ local function Refresh(self)
         Refresh_Add(ACHID_BATTLEGROUNDS)
       end
 
-      if ((DungeonDiff == 1 and dungeondiffoverride == 0) or dungeondiffoverride == 1) then -- Normal Mode Dungeon
+      if (DungeonDiff == 1) then -- Normal Mode Dungeon
           Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES[zone])
       end
       if (DungeonDiff == 2) then -- Heroic Dungeon/No selection
           Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES[zone])
       end
-      if (DungeonDiff == 23 or dungeondiffoverride == 23) then -- Mythic Dungeon
+      if (DungeonDiff == 23) then -- Mythic Dungeon
           Refresh_Add(ACHID_INSTANCES_HEROIC[zone], ACHID_INSTANCES_MYTHIC[zone], ACHID_INSTANCES[zone])
       end
       if (DungeonDiff == 8 or dungeondiffoverride == 8) then -- Challenge Mode Dungeon
