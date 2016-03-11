@@ -21,16 +21,6 @@ local RecentReminders = Overachiever.RecentReminders
 local IsAlliance = UnitFactionGroup("player") == "Alliance"
 local suggested = {}
 local ContinentVal = GetCurrentMapContinent()
-  -- 								Use to return Dungeon
-  -- 1: 5N					2: 5H					8: Challenge				 23: Mythic	
-  -- 		11: Scenario(H)			12: Scenario(N)				 24: Timewalking
- local DungeonDiff = GetDungeonDifficultyID()
-  -- 								Use to return Raid
-  -- 								  7: Pre-SoO LFR
-  -- 17: LFR Raid		14: Legacy/Flex N		15: Legacy/Flex H			16: Mythic Raid
- local RaidDiff = GetRaidDifficultyID()
-
-
 
 -- ZONE-SPECIFIC ACHIEVEMENTS
 ----------------------------------------------------
@@ -1105,6 +1095,14 @@ local TradeskillSuggestions
 local Refresh_lastcount, Refresh_stoploop = 0
 
 local function Refresh(self)
+  -- 								Use to return Dungeon
+  -- 1: 5N					2: 5H					8: Challenge				 23: Mythic	
+  -- 		11: Scenario(H)			12: Scenario(N)				 24: Timewalking
+  DungeonDiff = GetDungeonDifficultyID()
+  -- 								Use to return Raid
+  -- 								  7: Pre-SoO LFR
+  -- 17: LFR Raid		14: Legacy/Flex N		15: Legacy/Flex H			16: Mythic Raid
+  RaidDiff = GetRaidDifficultyID()
   if (not frame:IsVisible() or Refresh_stoploop) then  return;  end
   if (self == RefreshBtn or self == EditZoneOverride) then  PlaySound("igMainMenuOptionCheckBoxOn");  end
   Refresh_stoploop = true
@@ -1131,9 +1129,25 @@ local function Refresh(self)
   local instype, InstanceDiff, twentyfive, heroicR = Overachiever.GetDifficulty()
 
   -- Check for difficulty override:
-  local dungeondiffoverride = diffdrop:GetSelectedValue()
-  local raidsizeoverride = raidsizedrop:GetSelectedValue()
-  local raiddiffoverride = raiddiffdrop:GetSelectedValue()
+  local val = diffdrop:GetSelectedValue()
+  if (val ~= 0) then
+    val = val == 2 and true or false
+    InstanceDiff = val
+    heroicR = val
+  end
+  
+  val = raidsizedrop:GetSelectedValue()
+  if (val ~= 0) then
+    twentyfive = val == 25 and true or false
+  end
+  
+  -- Check for difficulty override:
+  local val = raiddiffdrop:GetSelectedValue()
+  if (val ~= 0) then
+    val = val == 14 and true or false
+    InstanceDiff = val
+    heroicR = val
+  end
 
 
   -- Suggestions based on an open tradeskill window or whether a fishing pole is equipped:
@@ -1160,7 +1174,7 @@ local function Refresh(self)
         Refresh_Add(ACHID_BATTLEGROUNDS)
       end
 
-      if (DungeonDiff == 1) then -- Normal Mode Dungeon
+      if (InstanceDiff == 1) then -- Normal Mode Dungeon
           Refresh_Add(ACHID_INSTANCES_NORMAL[zone], ACHID_INSTANCES[zone])
       end
       if (DungeonDiff == 2) then -- Heroic Dungeon/No selection
